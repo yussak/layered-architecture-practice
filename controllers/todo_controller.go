@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"server/db"
 	"server/models"
+	"strconv"
 	"text/template"
 )
 
@@ -58,5 +59,31 @@ func AddTodo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func DeleteTodo(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "IDが空です", http.StatusBadRequest)
+		return
+	}
+	// IDを整数に変換
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, "無効なID形式", http.StatusBadRequest)
+		log.Printf("ID変換エラー: %v", err)
+		return
+	}
+
+	// データベースから削除
+	_, err = db.DB.Exec("DELETE FROM todos WHERE id = $1", intID)
+	if err != nil {
+		http.Error(w, "データベースエラー", http.StatusInternalServerError)
+		log.Printf("削除エラー: %v", err)
+		return
+	}
+
+	// 成功したらリストページにリダイレクト
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
