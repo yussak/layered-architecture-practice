@@ -45,3 +45,18 @@ func ListTodos(w http.ResponseWriter, r *http.Request) {
 		log.Printf("テンプレートレンダリングエラー: %v", err)
 	}
 }
+
+func AddTodo(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("todo")
+	if name == "" {
+		http.Error(w, "TODO名が空です", http.StatusBadRequest)
+		return
+	}
+	_, err := db.DB.Exec("INSERT INTO Todos (name) VALUES ($1)", name)
+	if err != nil {
+		http.Error(w, "データベースエラー", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}

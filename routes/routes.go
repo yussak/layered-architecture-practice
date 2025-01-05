@@ -7,4 +7,5 @@ import (
 
 func SetupRoutes() {
 	http.HandleFunc("/", controllers.ListTodos)
+	http.HandleFunc("/add", controllers.AddTodo)
 }
