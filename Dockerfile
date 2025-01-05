@@ -8,12 +8,14 @@ COPY go.sum ./
 RUN go mod download
 
 # COPY *.go ./
+RUN go install github.com/air-verse/air@latest
+
 COPY . .
 
-RUN go build -o main .
+# RUN go build -o main .
 # RUN go build -o ./main
 
 EXPOSE 8080
 
-CMD [ "./main" ]
-
+# CMD [ "./main" ]
+CMD [ "air"]

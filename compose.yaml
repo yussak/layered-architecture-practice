@@ -12,6 +12,8 @@ services:
       - DB_USER=user
       - DB_PASSWORD=password
       - DB_NAME=db
+    volumes:
+      - .:/app
     tty: true
     depends_on:
       - db
