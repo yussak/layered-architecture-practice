@@ -2,8 +2,7 @@ services:
   server:
     image: server
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./server
     ports:
       - "8080:8080"
     environment:
@@ -13,7 +12,7 @@ services:
       - DB_PASSWORD=password
       - DB_NAME=db
     volumes:
-      - .:/app
+      - ./server:/app
     tty: true
     depends_on:
       - db
