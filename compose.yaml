@@ -1,4 +1,10 @@
 services:
+  client:
+    image: client
+    build:
+      context: ./client
+    ports:
+      - "5173:5173"
   server:
     image: server
     build:
