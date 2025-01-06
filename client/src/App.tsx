@@ -39,6 +39,25 @@ function App() {
     }
   };
 
+  const handleDeleteTodo = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/delete?id=${id}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        // Todoが削除されたので、状態からも削除
+        setTodos((prevTodos) => prevTodos.filter((todo) => todo.ID !== id))
+      } else {
+        const errorText = await response.text()
+        alert(`エラー: ${errorText}`)
+      }
+    } catch (error) {
+      console.error("通信エラー:", error)
+      alert("通信エラーが発生しました")
+    }
+  }
+
   return (
     <>
       <h1>TODOリスト</h1>
@@ -52,8 +71,9 @@ function App() {
       <ul>
         {todos && todos.length > 0 ? (
           todos.map((todo) => (
-            <li key={todo.id}>
-              {todo.Name} <a href={`/delete?id=${todo.id}`}>削除</a>
+            <li key={todo.ID}>
+              {todo.Name}, {todo.ID}<button onClick={() => handleDeleteTodo(todo.ID)}>削除</button>
+
             </li>
           ))
         ) : (

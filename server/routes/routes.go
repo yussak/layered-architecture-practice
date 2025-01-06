@@ -13,7 +13,7 @@ func SetupRoutes(e *echo.Echo) {
 	e.POST("/add", func(c echo.Context) error {
 		return controllers.AddTodo(c)
 	})
-	// e.DELETE("/delete", func(c echo.Context) error {
-	// 	return controllers.DeleteTodo(c)
-	// })
+	e.DELETE("/delete", func(c echo.Context) error {
+		return controllers.DeleteTodo(c)
+	})
 }

@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 	"server/db"
 	"server/models"
@@ -75,28 +75,23 @@ func AddTodo(c echo.Context) error {
 	return c.JSON(http.StatusOK, newTodo)
 }
 
-func DeleteTodo(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+func DeleteTodo(c echo.Context) error {
+	id := c.QueryParam("id")
+	fmt.Println("a", id)
 	if id == "" {
-		http.Error(w, "IDが空です", http.StatusBadRequest)
-		return
+		return c.String(http.StatusBadRequest, "IDが空です")
 	}
 	// IDを整数に変換
 	intID, err := strconv.Atoi(id)
 	if err != nil {
-		http.Error(w, "無効なID形式", http.StatusBadRequest)
-		log.Printf("ID変換エラー: %v", err)
-		return
+		return c.String(http.StatusBadRequest, "無効なID形式")
 	}
 
 	// データベースから削除
 	_, err = db.DB.Exec("DELETE FROM todos WHERE id = $1", intID)
 	if err != nil {
-		http.Error(w, "データベースエラー", http.StatusInternalServerError)
-		log.Printf("削除エラー: %v", err)
-		return
+		return c.String(http.StatusInternalServerError, "データベースエラー")
 	}
 
-	// 成功したらリストページにリダイレクト
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return c.Redirect(http.StatusSeeOther, "/")
 }
