@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"server/db"
 	"server/models"
@@ -10,7 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// TODO:add todo実装後荷表示されるかを確認する
 func ListTodos(c echo.Context) error {
 	rows, err := db.DB.Query("SELECT id, name FROM todos")
 	if err != nil {
@@ -34,24 +32,19 @@ func ListTodos(c echo.Context) error {
 	return c.JSON(http.StatusOK, todos)
 }
 
-type TodoRequest struct {
-	Todo string `json:"todo"`
-}
-
 type Todo struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   int    `json:"Id"`
+	Name string `json:"Name"`
 }
 
 func AddTodo(c echo.Context) error {
-	var req TodoRequest
+	var req Todo
 
 	// JSONボディをバインド
 	if err := c.Bind(&req); err != nil {
 		return c.String(http.StatusBadRequest, "リクエストの形式が正しくありません")
 	}
-
-	if req.Todo == "" {
+	if req.Name == "" {
 		return c.String(http.StatusBadRequest, "TODO名が空です")
 	}
 
@@ -59,7 +52,7 @@ func AddTodo(c echo.Context) error {
 	var insertedID int
 	err := db.DB.QueryRow(
 		"INSERT INTO Todos (name) VALUES ($1) RETURNING id",
-		req.Todo,
+		req.Name,
 	).Scan(&insertedID)
 
 	if err != nil {
@@ -69,7 +62,7 @@ func AddTodo(c echo.Context) error {
 	// 登録したTODOをJSONで返す
 	newTodo := Todo{
 		ID:   insertedID,
-		Name: req.Todo,
+		Name: req.Name,
 	}
 
 	return c.JSON(http.StatusOK, newTodo)
@@ -77,7 +70,6 @@ func AddTodo(c echo.Context) error {
 
 func DeleteTodo(c echo.Context) error {
 	id := c.QueryParam("id")
-	fmt.Println("a", id)
 	if id == "" {
 		return c.String(http.StatusBadRequest, "IDが空です")
 	}

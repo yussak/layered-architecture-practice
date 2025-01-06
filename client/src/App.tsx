@@ -23,7 +23,7 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ todo }),
+        body: JSON.stringify({ Name: todo }),
       });
 
       if (response.ok) {
@@ -46,15 +46,13 @@ function App() {
       })
 
       if (response.ok) {
-        // Todoが削除されたので、状態からも削除
         setTodos((prevTodos) => prevTodos.filter((todo) => todo.ID !== id))
       } else {
         const errorText = await response.text()
-        alert(`エラー: ${errorText}`)
+        console.error(`エラー: ${errorText}`);
       }
     } catch (error) {
       console.error("通信エラー:", error)
-      alert("通信エラーが発生しました")
     }
   }
 
@@ -72,8 +70,7 @@ function App() {
         {todos && todos.length > 0 ? (
           todos.map((todo) => (
             <li key={todo.ID}>
-              {todo.Name}, {todo.ID}<button onClick={() => handleDeleteTodo(todo.ID)}>削除</button>
-
+              {todo.Name}<button onClick={() => handleDeleteTodo(todo.ID)}>削除</button>
             </li>
           ))
         ) : (
