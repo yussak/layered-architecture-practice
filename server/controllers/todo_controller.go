@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"server/db"
 	"server/models"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,13 +31,8 @@ func ListTodos(c echo.Context) error {
 	return c.JSON(http.StatusOK, todos)
 }
 
-type Todo struct {
-	ID   int    `json:"Id"`
-	Name string `json:"Name"`
-}
-
 func AddTodo(c echo.Context) error {
-	var req Todo
+	var req models.Todo
 
 	// JSONボディをバインド
 	if err := c.Bind(&req); err != nil {
@@ -60,7 +54,7 @@ func AddTodo(c echo.Context) error {
 	}
 
 	// 登録したTODOをJSONで返す
-	newTodo := Todo{
+	newTodo := models.Todo{
 		ID:   insertedID,
 		Name: req.Name,
 	}
@@ -73,14 +67,9 @@ func DeleteTodo(c echo.Context) error {
 	if id == "" {
 		return c.String(http.StatusBadRequest, "IDが空です")
 	}
-	// IDを整数に変換
-	intID, err := strconv.Atoi(id)
-	if err != nil {
-		return c.String(http.StatusBadRequest, "無効なID形式")
-	}
 
 	// データベースから削除
-	_, err = db.DB.Exec("DELETE FROM todos WHERE id = $1", intID)
+	_, err := db.DB.Exec("DELETE FROM todos WHERE id = $1", id)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データベースエラー")
 	}
