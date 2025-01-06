@@ -34,19 +34,45 @@ func ListTodos(c echo.Context) error {
 	return c.JSON(http.StatusOK, todos)
 }
 
-func AddTodo(w http.ResponseWriter, r *http.Request) {
-	name := r.FormValue("todo")
-	if name == "" {
-		http.Error(w, "TODO名が空です", http.StatusBadRequest)
-		return
-	}
-	_, err := db.DB.Exec("INSERT INTO Todos (name) VALUES ($1)", name)
-	if err != nil {
-		http.Error(w, "データベースエラー", http.StatusInternalServerError)
-		return
+type TodoRequest struct {
+	Todo string `json:"todo"`
+}
+
+type Todo struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func AddTodo(c echo.Context) error {
+	var req TodoRequest
+
+	// JSONボディをバインド
+	if err := c.Bind(&req); err != nil {
+		return c.String(http.StatusBadRequest, "リクエストの形式が正しくありません")
 	}
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	if req.Todo == "" {
+		return c.String(http.StatusBadRequest, "TODO名が空です")
+	}
+
+	// TodosテーブルにINSERTして、INSERTしたレコードのIDを取得
+	var insertedID int
+	err := db.DB.QueryRow(
+		"INSERT INTO Todos (name) VALUES ($1) RETURNING id",
+		req.Todo,
+	).Scan(&insertedID)
+
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "データベースエラー")
+	}
+
+	// 登録したTODOをJSONで返す
+	newTodo := Todo{
+		ID:   insertedID,
+		Name: req.Todo,
+	}
+
+	return c.JSON(http.StatusOK, newTodo)
 }
 
 func DeleteTodo(w http.ResponseWriter, r *http.Request) {

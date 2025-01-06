@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import './App.css'
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState("");
 
   useEffect(() => {
     fetch('http://localhost:8080/')
@@ -16,18 +16,44 @@ function App() {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
+  const handleAddTodo = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ todo }),
+      });
+
+      if (response.ok) {
+        const newTodo = await response.json();
+        setTodos((prevTodos) => [...prevTodos, newTodo]);
+        setTodo("");
+      } else {
+        const errorText = await response.text();
+        console.error(`エラー: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("通信エラー:", error);
+    }
+  };
+
   return (
     <>
       <h1>TODOリスト</h1>
-      <form action="/add" method="POST">
-        <input type="text" name="todo" placeholder="タスクを入力" required />
-        <button type="submit">追加</button>
-      </form>
+      <input
+        type="text"
+        name="todo"
+        onChange={(e) => setTodo(e.target.value)} // onChangeで入力値を更新
+        placeholder="タスクを入力"
+      />
+      <button onClick={handleAddTodo}>追加</button>
       <ul>
         {todos && todos.length > 0 ? (
           todos.map((todo) => (
             <li key={todo.id}>
-              {todo.name} <a href={`/delete?id=${todo.id}`}>削除</a>
+              {todo.Name} <a href={`/delete?id=${todo.id}`}>削除</a>
             </li>
           ))
         ) : (

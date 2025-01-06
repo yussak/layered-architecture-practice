@@ -24,8 +24,7 @@ func main() {
 		// アクセスを許可するメソッドを指定
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 		// アクセスを許可するヘッダーを指定
-		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization, "X-CSRF-Header"},
-		// cookieを使う場合はtrue。後々cookieを使うつもりなのでtrueに。
+		AllowHeaders:     []string{echo.HeaderContentType, echo.HeaderAuthorization, "X-CSRF-Header"},
 		AllowCredentials: true,
 	}))
 
