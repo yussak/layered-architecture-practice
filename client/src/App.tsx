@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Todo } from './types';
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todo, setTodoName] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('http://localhost:8080/')
@@ -29,7 +30,7 @@ function App() {
       if (response.ok) {
         const newTodo = await response.json();
         setTodos((prevTodos) => [...prevTodos, newTodo]);
-        setTodo("");
+        setTodoName(null);
       } else {
         const errorText = await response.text();
         console.error(`エラー: ${errorText}`);
@@ -62,7 +63,7 @@ function App() {
       <input
         type="text"
         name="todo"
-        onChange={(e) => setTodo(e.target.value)} // onChangeで入力値を更新
+        onChange={(e) => setTodoName(e.target.value)} // onChangeで入力値を更新
         placeholder="タスクを入力"
       />
       <button onClick={handleAddTodo}>追加</button>
