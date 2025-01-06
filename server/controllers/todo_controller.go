@@ -6,15 +6,15 @@ import (
 	"server/db"
 	"server/models"
 	"strconv"
-	"text/template"
+
+	"github.com/labstack/echo/v4"
 )
 
 // TODO:add todo実装後荷表示されるかを確認する
-func ListTodos(w http.ResponseWriter, r *http.Request) {
+func ListTodos(c echo.Context) error {
 	rows, err := db.DB.Query("SELECT id, name FROM todos")
 	if err != nil {
-		http.Error(w, "データベースエラー", http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, "データベースエラー")
 	}
 	defer rows.Close()
 
@@ -26,25 +26,12 @@ func ListTodos(w http.ResponseWriter, r *http.Request) {
 			Name string
 		}
 		if err := rows.Scan(&todo.ID, &todo.Name); err != nil {
-			http.Error(w, "データ取得エラー", http.StatusInternalServerError)
-			return
+			return c.String(http.StatusInternalServerError, "データ取得エラー")
 		}
 		todos = append(todos, todo)
 	}
 
-	// HTMLテンプレートを読み込む
-	tmpl, err := template.ParseFiles("views/index.html")
-	if err != nil {
-		http.Error(w, "テンプレートエラー", http.StatusInternalServerError)
-		log.Printf("テンプレートエラー: %v", err)
-		return
-	}
-
-	// テンプレートにTODOリストを渡してレンダリング
-	if err := tmpl.Execute(w, todos); err != nil {
-		http.Error(w, "テンプレートレンダリングエラー", http.StatusInternalServerError)
-		log.Printf("テンプレートレンダリングエラー: %v", err)
-	}
+	return c.JSON(http.StatusOK, todos)
 }
 
 func AddTodo(w http.ResponseWriter, r *http.Request) {
