@@ -18,10 +18,7 @@ func ListTodos(c echo.Context) error {
 	var todos []models.Todo
 
 	for rows.Next() {
-		var todo struct {
-			ID   int
-			Name string
-		}
+		todo := models.Todo{}
 		if err := rows.Scan(&todo.ID, &todo.Name); err != nil {
 			return c.String(http.StatusInternalServerError, "データ取得エラー")
 		}
