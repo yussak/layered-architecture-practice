@@ -1,1 +1,1 @@
-# layered-architecture-practice
+レイヤードアーキテクチャの練習リポジトリ
