@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"server/application"
 	"server/db"
 	"server/models"
 
@@ -9,20 +10,9 @@ import (
 )
 
 func ListTodos(c echo.Context) error {
-	rows, err := db.DB.Query("SELECT id, name FROM todos")
+	todos, err := application.GetTodos()
 	if err != nil {
-		return c.String(http.StatusInternalServerError, "データベースエラー")
-	}
-	defer rows.Close()
-
-	var todos []models.Todo
-
-	for rows.Next() {
-		todo := models.Todo{}
-		if err := rows.Scan(&todo.ID, &todo.Name); err != nil {
-			return c.String(http.StatusInternalServerError, "データ取得エラー")
-		}
-		todos = append(todos, todo)
+		return c.String(http.StatusInternalServerError, "データ取得エラー")
 	}
 
 	return c.JSON(http.StatusOK, todos)
