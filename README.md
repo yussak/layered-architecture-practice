@@ -1,1 +1,1 @@
-# onion-architecture-practice
+# layered-architecture-practice
