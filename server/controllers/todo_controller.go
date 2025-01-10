@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// TODO:package uiに変えるかも？
 func ListTodos(c echo.Context) error {
 	todos, err := application.GetTodos()
 	if err != nil {

@@ -1,15 +1,9 @@
 package application
 
 import (
-	"server/infrastructure"
-	"server/models"
+	"server/domain"
 )
 
-func GetTodos() ([]models.Todo, error) {
-	todos, err := infrastructure.GetTodosFromDB()
-	if err != nil {
-		return nil, err
-	}
-
-	return todos, nil
+func GetTodos() ([]domain.Todo, error) {
+	return domain.GetTodos()
 }

@@ -2,20 +2,24 @@ package infrastructure
 
 import (
 	"server/db"
-	"server/models"
 )
 
-func GetTodosFromDB() ([]models.Todo, error) {
+type Todo struct {
+	ID   int
+	Name string
+}
+
+func GetTodosFromDB() ([]Todo, error) {
 	rows, err := db.DB.Query("SELECT id, name FROM todos")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var todos []models.Todo
+	var todos []Todo
 
 	for rows.Next() {
-		todo := models.Todo{}
+		todo := Todo{}
 		if err := rows.Scan(&todo.ID, &todo.Name); err != nil {
 			return nil, err
 		}
