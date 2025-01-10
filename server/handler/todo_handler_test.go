@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// go test ./controllers -v
+// go test ./handler -v
 func TestListTodos(t *testing.T) {
 	// Echoインスタンス作成
 	e := echo.New()
