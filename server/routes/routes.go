@@ -2,13 +2,14 @@ package routes
 
 import (
 	"server/controllers"
+	"server/handler"
 
 	"github.com/labstack/echo/v4"
 )
 
 func SetupRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
-		return controllers.ListTodos(c)
+		return handler.ListTodos(c)
 	})
 	e.POST("/add", func(c echo.Context) error {
 		return controllers.AddTodo(c)

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"server/application"
 	"server/db"
 	"server/models"
 
@@ -10,14 +9,14 @@ import (
 )
 
 // TODO:package uiに変えるかも？
-func ListTodos(c echo.Context) error {
-	todos, err := application.GetTodos()
-	if err != nil {
-		return c.String(http.StatusInternalServerError, "データ取得エラー")
-	}
+// func ListTodos(c echo.Context) error {
+// 	todos, err := application.GetTodos()
+// 	if err != nil {
+// 		return c.String(http.StatusInternalServerError, "データ取得エラー")
+// 	}
 
-	return c.JSON(http.StatusOK, todos)
-}
+// 	return c.JSON(http.StatusOK, todos)
+// }
 
 func AddTodo(c echo.Context) error {
 	var req models.Todo
