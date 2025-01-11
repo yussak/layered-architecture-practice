@@ -16,7 +16,7 @@ import (
 )
 
 // go test ./handler -v
-func TestListTodosHandler(t *testing.T) {
+func TestHandleGetTodos(t *testing.T) {
 	// Echoインスタンス作成
 	e := echo.New()
 
@@ -42,7 +42,7 @@ func TestListTodosHandler(t *testing.T) {
 	c := e.NewContext(req, rec)
 
 	// テスト対象関数を実行
-	err = ListTodosHandler(c)
+	err = HandleGetTodos(c)
 
 	// アサーション
 	assert.NoError(t, err)

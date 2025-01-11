@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func ListTodosHandler(c echo.Context) error {
+func HandleGetTodos(c echo.Context) error {
 	todos, err := application.GetTodos()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データ取得エラー")
