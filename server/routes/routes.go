@@ -1,19 +1,19 @@
 package routes
 
 import (
-	"server/handler"
+	"server/ui"
 
 	"github.com/labstack/echo/v4"
 )
 
 func SetupRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
-		return handler.HandleGetTodos(c)
+		return ui.HandleGetTodos(c)
 	})
 	e.POST("/add", func(c echo.Context) error {
-		return handler.HandleAddTodo(c)
+		return ui.HandleAddTodo(c)
 	})
 	e.DELETE("/delete", func(c echo.Context) error {
-		return handler.HandleDeleteTodo(c)
+		return ui.HandleDeleteTodo(c)
 	})
 }

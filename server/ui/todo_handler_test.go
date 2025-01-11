@@ -1,4 +1,4 @@
-package handler
+package ui
 
 import (
 	"bytes"
@@ -15,7 +15,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// go test ./handler -v
+// TODO: package事にテスト書くかも
+
+// go test ./ui -v
 func TestHandleGetTodos(t *testing.T) {
 	// Echoインスタンス作成
 	e := echo.New()
