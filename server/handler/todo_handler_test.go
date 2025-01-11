@@ -83,7 +83,7 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 
 	// テスト実行
-	if assert.NoError(t, AddTodo(c)) {
+	if assert.NoError(t, AddTodoHander(c)) {
 		// ステータスコードの検証
 		assert.Equal(t, http.StatusOK, rec.Code)
 

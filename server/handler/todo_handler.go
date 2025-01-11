@@ -21,8 +21,7 @@ type AddTodoRequest struct {
 	Name string `json:"name"`
 }
 
-// TODO:AddTodoHanderにしたい
-func AddTodo(c echo.Context) error {
+func AddTodoHander(c echo.Context) error {
 	var req AddTodoRequest
 
 	// JSONボディをバインド
