@@ -9,7 +9,7 @@ import (
 
 func SetupRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
-		return handler.ListTodos(c)
+		return handler.ListTodosHandler(c)
 	})
 	e.POST("/add", func(c echo.Context) error {
 		return handler.AddTodo(c)
