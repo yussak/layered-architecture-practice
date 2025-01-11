@@ -40,7 +40,7 @@ func HandleAddTodo(c echo.Context) error {
 	return c.JSON(http.StatusOK, newTodo)
 }
 
-func DeleteTodoHandler(c echo.Context) error {
+func HandleDeleteTodo(c echo.Context) error {
 	id := c.QueryParam("id")
 	if id == "" {
 		return c.String(http.StatusBadRequest, "IDが空です")

@@ -99,7 +99,7 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
 
-func TestDeleteTodoHandler(t *testing.T) {
+func TestHandleDeleteTodo(t *testing.T) {
 	// テスト用のEchoインスタンス作成
 	e := echo.New()
 
@@ -126,7 +126,7 @@ func TestDeleteTodoHandler(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := DeleteTodoHandler(c)
+		err := HandleDeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードが期待通り
@@ -145,7 +145,7 @@ func TestDeleteTodoHandler(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := DeleteTodoHandler(c)
+		err := HandleDeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードとエラーメッセージが期待通り
@@ -166,7 +166,7 @@ func TestDeleteTodoHandler(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := DeleteTodoHandler(c)
+		err := HandleDeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードとエラーメッセージが期待通り
