@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"server/db"
+	"server/models"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -49,4 +52,48 @@ func TestListTodos(t *testing.T) {
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
+}
+
+func TestAddTodoWithSQLMock(t *testing.T) {
+	// モックデータベースとモックインターフェースを作成
+	mockDB, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer mockDB.Close()
+
+	// モックデータベースをグローバル変数に設定（テスト用）
+	db.DB = mockDB
+
+	// モックデータ
+	mockTodo := models.Todo{Name: "Test Todo"}
+	mockResponse := models.Todo{ID: 1, Name: "Test Todo"}
+
+	// JSONリクエストボディ作成
+	requestBody, _ := json.Marshal(mockTodo)
+
+	// Echoのリクエストとレスポンスを作成
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/todos", bytes.NewReader(requestBody))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	// INSERTクエリのモック設定
+	mock.ExpectQuery("INSERT INTO Todos").
+		WithArgs(mockTodo.Name).
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+
+	// テスト実行
+	if assert.NoError(t, AddTodo(c)) {
+		// ステータスコードの検証
+		assert.Equal(t, http.StatusOK, rec.Code)
+
+		// レスポンスボディの検証
+		var responseTodo models.Todo
+		err := json.Unmarshal(rec.Body.Bytes(), &responseTodo)
+		assert.NoError(t, err)
+		assert.Equal(t, mockResponse, responseTodo)
+	}
+
+	// モックの期待値の検証
+	assert.NoError(t, mock.ExpectationsWereMet())
 }

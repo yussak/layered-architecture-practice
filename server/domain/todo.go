@@ -24,3 +24,23 @@ func GetTodos() ([]Todo, error) {
 
 	return todos, nil
 }
+
+type TodoResponse struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func GetNewTodo(name string) (Todo, error) {
+	insertedID, err := infrastructure.GetInsertedTodoID(name)
+	if err != nil {
+		return Todo{}, err
+	}
+
+	// 登録したTODOをJSONで返す
+	newTodo := Todo{
+		ID:   insertedID,
+		Name: name,
+	}
+
+	return newTodo, nil
+}

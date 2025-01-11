@@ -16,3 +16,28 @@ func ListTodos(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, todos)
 }
+
+// リクエスト用のDTOを定義
+type AddTodoRequest struct {
+	Name string `json:"name"`
+}
+
+// TODO:AddTodoHanderにしたい
+func AddTodo(c echo.Context) error {
+	var req AddTodoRequest
+
+	// JSONボディをバインド
+	if err := c.Bind(&req); err != nil {
+		return c.String(http.StatusBadRequest, "リクエストの形式が正しくありません")
+	}
+	if req.Name == "" {
+		return c.String(http.StatusBadRequest, "TODO名が空です")
+	}
+
+	newTodo, err := application.CreateTodo(req.Name)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "a")
+	}
+
+	return c.JSON(http.StatusOK, newTodo)
+}

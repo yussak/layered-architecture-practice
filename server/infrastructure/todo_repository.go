@@ -28,3 +28,18 @@ func GetTodosFromDB() ([]Todo, error) {
 
 	return todos, nil
 }
+
+func GetInsertedTodoID(name string) (int, error) {
+	// TodosテーブルにINSERTして、INSERTしたレコードのIDを取得
+	var insertedID int
+	err := db.DB.QueryRow(
+		"INSERT INTO Todos (name) VALUES ($1) RETURNING id",
+		name,
+	).Scan(&insertedID)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return insertedID, nil
+}
