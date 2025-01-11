@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"server/db"
-	"server/models"
+	"server/domain"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -65,8 +65,8 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 	db.DB = mockDB
 
 	// モックデータ
-	mockTodo := models.Todo{Name: "Test Todo"}
-	mockResponse := models.Todo{ID: 1, Name: "Test Todo"}
+	mockTodo := domain.Todo{Name: "Test Todo"}
+	mockResponse := domain.Todo{ID: 1, Name: "Test Todo"}
 
 	// JSONリクエストボディ作成
 	requestBody, _ := json.Marshal(mockTodo)
@@ -89,7 +89,7 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// レスポンスボディの検証
-		var responseTodo models.Todo
+		var responseTodo domain.Todo
 		err := json.Unmarshal(rec.Body.Bytes(), &responseTodo)
 		assert.NoError(t, err)
 		assert.Equal(t, mockResponse, responseTodo)
