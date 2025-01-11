@@ -43,3 +43,12 @@ func GetInsertedTodoID(name string) (int, error) {
 
 	return insertedID, nil
 }
+
+func Delete(id string) error {
+	_, err := db.DB.Exec("DELETE FROM todos WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

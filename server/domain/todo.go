@@ -44,3 +44,12 @@ func GetNewTodo(name string) (Todo, error) {
 
 	return newTodo, nil
 }
+
+func DeleteTodo(id string) error {
+	err := infrastructure.Delete(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

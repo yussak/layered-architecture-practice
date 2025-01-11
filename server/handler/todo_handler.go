@@ -39,3 +39,18 @@ func AddTodoHander(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, newTodo)
 }
+
+func DeleteTodoHandler(c echo.Context) error {
+	id := c.QueryParam("id")
+	if id == "" {
+		return c.String(http.StatusBadRequest, "IDが空です")
+	}
+
+	// データベースから削除
+	err := application.DeleteTodo(id)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "データベースエラー")
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/")
+}

@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"server/controllers"
 	"server/handler"
 
 	"github.com/labstack/echo/v4"
@@ -15,6 +14,6 @@ func SetupRoutes(e *echo.Echo) {
 		return handler.AddTodoHander(c)
 	})
 	e.DELETE("/delete", func(c echo.Context) error {
-		return controllers.DeleteTodo(c)
+		return handler.DeleteTodoHandler(c)
 	})
 }
