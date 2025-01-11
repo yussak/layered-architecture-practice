@@ -11,7 +11,7 @@ func SetupRoutes(e *echo.Echo) {
 		return handler.HandleGetTodos(c)
 	})
 	e.POST("/add", func(c echo.Context) error {
-		return handler.AddTodoHander(c)
+		return handler.HandleAddTodo(c)
 	})
 	e.DELETE("/delete", func(c echo.Context) error {
 		return handler.DeleteTodoHandler(c)
