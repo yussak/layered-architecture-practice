@@ -15,7 +15,6 @@ func GetTodos() ([]domain.Todo, error) {
 }
 
 func CreateTodo(name string) (domain.Todo, error) {
-
 	return domain.CreateTodo(name)
 }
 
