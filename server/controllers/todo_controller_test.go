@@ -1,4 +1,4 @@
-package ui
+package controllers
 
 import (
 	"bytes"
@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"server/db"
-	"server/domain"
+	"server/models"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -15,10 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO: package事にテスト書きなおす！！
-
-// go test ./ui -v
-func TestHandleGetTodos(t *testing.T) {
+func TestGetTodos(t *testing.T) {
 	// Echoインスタンス作成
 	e := echo.New()
 
@@ -44,7 +41,7 @@ func TestHandleGetTodos(t *testing.T) {
 	c := e.NewContext(req, rec)
 
 	// テスト対象関数を実行
-	err = HandleGetTodos(c)
+	err = GetTodos(c)
 
 	// アサーション
 	assert.NoError(t, err)
@@ -67,8 +64,8 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 	db.DB = mockDB
 
 	// モックデータ
-	mockTodo := domain.Todo{Name: "Test Todo"}
-	mockResponse := domain.Todo{ID: 1, Name: "Test Todo"}
+	mockTodo := models.Todo{Name: "Test Todo"}
+	mockResponse := models.Todo{ID: 1, Name: "Test Todo"}
 
 	// JSONリクエストボディ作成
 	requestBody, _ := json.Marshal(mockTodo)
@@ -86,12 +83,12 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 
 	// テスト実行
-	if assert.NoError(t, HandleAddTodo(c)) {
+	if assert.NoError(t, AddTodo(c)) {
 		// ステータスコードの検証
 		assert.Equal(t, http.StatusOK, rec.Code)
 
 		// レスポンスボディの検証
-		var responseTodo domain.Todo
+		var responseTodo models.Todo
 		err := json.Unmarshal(rec.Body.Bytes(), &responseTodo)
 		assert.NoError(t, err)
 		assert.Equal(t, mockResponse, responseTodo)
@@ -101,7 +98,7 @@ func TestAddTodoWithSQLMock(t *testing.T) {
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
 
-func TestHandleDeleteTodo(t *testing.T) {
+func TestDeleteTodo(t *testing.T) {
 	// テスト用のEchoインスタンス作成
 	e := echo.New()
 
@@ -128,7 +125,7 @@ func TestHandleDeleteTodo(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := HandleDeleteTodo(c)
+		err := DeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードが期待通り
@@ -147,7 +144,7 @@ func TestHandleDeleteTodo(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := HandleDeleteTodo(c)
+		err := DeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードとエラーメッセージが期待通り
@@ -168,7 +165,7 @@ func TestHandleDeleteTodo(t *testing.T) {
 		c := e.NewContext(req, rec)
 
 		// テスト対象の関数を実行
-		err := HandleDeleteTodo(c)
+		err := DeleteTodo(c)
 		assert.NoError(t, err)
 
 		// ステータスコードとエラーメッセージが期待通り
