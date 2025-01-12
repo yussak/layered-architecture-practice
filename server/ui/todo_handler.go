@@ -34,7 +34,7 @@ func HandleAddTodo(c echo.Context) error {
 
 	newTodo, err := application.CreateTodo(req.Name)
 	if err != nil {
-		return c.String(http.StatusInternalServerError, "a")
+		return c.String(http.StatusInternalServerError, "データベースエラー")
 	}
 
 	return c.JSON(http.StatusOK, newTodo)
