@@ -35,12 +35,12 @@ func HandleAddTodo(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "リクエストの形式が正しくありません")
 	}
 
-	newTodo, err := application.CreateTodo(req.Name)
+	todo, err := application.CreateTodo(req.Name)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データベースエラー")
 	}
 
-	return c.JSON(http.StatusOK, newTodo)
+	return c.JSON(http.StatusOK, todo)
 }
 
 func HandleDeleteTodo(c echo.Context) error {

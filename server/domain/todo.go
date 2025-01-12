@@ -41,13 +41,12 @@ func CreateTodo(name string) (Todo, error) {
 		return Todo{}, err
 	}
 
-	// 登録したTODOをJSONで返す
-	newTodo := Todo{
+	todo := Todo{
 		ID:   insertedID,
 		Name: name,
 	}
 
-	return newTodo, nil
+	return todo, nil
 }
 
 func DeleteTodo(id string) error {
