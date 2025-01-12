@@ -1,5 +1,7 @@
 package application
 
+// ユースケースを書く
+
 import (
 	"server/domain"
 )

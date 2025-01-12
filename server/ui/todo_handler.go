@@ -1,5 +1,7 @@
 package ui
 
+// クライアントとの入出力を書く
+
 import (
 	"net/http"
 	"server/application"

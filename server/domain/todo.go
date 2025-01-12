@@ -1,5 +1,7 @@
 package domain
 
+// ドメイン知識を書く
+
 import "server/infrastructure"
 
 type Todo struct {

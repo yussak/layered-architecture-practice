@@ -1,5 +1,7 @@
 package infrastructure
 
+// データベースとの入出力
+
 import (
 	"server/db"
 )
@@ -29,6 +31,7 @@ func GetTodosFromDB() ([]Todo, error) {
 	return todos, nil
 }
 
+// TODO:責務が別れてるかもしれないので確認
 func GetInsertedTodoID(name string) (int, error) {
 	// TodosテーブルにINSERTして、INSERTしたレコードのIDを取得
 	var insertedID int
