@@ -1,6 +1,7 @@
 package infrastructure
 
-// データベースとの入出力
+// infrastructure層の役割
+// データベース、外部サービスとのやり取りを行う
 
 import (
 	"server/db"

@@ -1,6 +1,8 @@
 package application
 
-// ユースケースを書く
+// application層の役割
+// アプリのユースケースを書く
+// リクエスト内容がアプリの仕様にあっているかの確認はここで行う
 
 import (
 	"server/domain"

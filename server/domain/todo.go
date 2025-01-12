@@ -1,6 +1,7 @@
 package domain
 
-// ドメイン知識を書く
+// domain層の役割
+// アプリのビジネルスールやドメイン知識を管理する
 
 import "server/infrastructure"
 
