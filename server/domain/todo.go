@@ -1,9 +1,12 @@
 package domain
 
 // domain層の役割
-// アプリのビジネルスールやドメイン知識を管理する
+// アプリのビジネルスールや中心となるロジックを管理する
 
-import "server/infrastructure"
+import (
+	"errors"
+	"server/infrastructure"
+)
 
 type Todo struct {
 	ID   int
@@ -29,6 +32,10 @@ func GetTodos() ([]Todo, error) {
 }
 
 func CreateTodo(name string) (Todo, error) {
+	if name == "" {
+		return Todo{}, errors.New("nameが空です")
+	}
+
 	insertedID, err := infrastructure.GetInsertedTodoID(name)
 	if err != nil {
 		return Todo{}, err

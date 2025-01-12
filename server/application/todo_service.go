@@ -4,8 +4,9 @@ package application
 // アプリのユースケースを書く
 // リクエスト内容がアプリの仕様にあっているかの確認はここで行う
 
+// todoをcreateする、likeをaddするなどのユースケースなどが書かれる
+
 import (
-	"errors"
 	"server/domain"
 )
 
@@ -14,9 +15,6 @@ func GetTodos() ([]domain.Todo, error) {
 }
 
 func CreateTodo(name string) (domain.Todo, error) {
-	if name == "" {
-		return domain.Todo{}, errors.New("nameが空です")
-	}
 
 	return domain.CreateTodo(name)
 }
