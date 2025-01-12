@@ -33,7 +33,7 @@ func GetTodosFromDB() ([]Todo, error) {
 }
 
 // TODO:責務が別れてるかもしれないので確認
-func GetInsertedTodoID(name string) (int, error) {
+func InsertTodoAndGetId(name string) (int, error) {
 	// TodosテーブルにINSERTして、INSERTしたレコードのIDを取得
 	var insertedID int
 	err := db.DB.QueryRow(

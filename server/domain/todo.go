@@ -36,7 +36,7 @@ func CreateTodo(name string) (Todo, error) {
 		return Todo{}, errors.New("nameが空です")
 	}
 
-	insertedID, err := infrastructure.GetInsertedTodoID(name)
+	insertedID, err := infrastructure.InsertTodoAndGetId(name)
 	if err != nil {
 		return Todo{}, err
 	}
