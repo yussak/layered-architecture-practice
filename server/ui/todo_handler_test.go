@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO: package事にテスト書くかも
+// TODO: package事にテスト書きなおす！！
 
 // go test ./ui -v
 func TestHandleGetTodos(t *testing.T) {

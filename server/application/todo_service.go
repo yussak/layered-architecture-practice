@@ -5,6 +5,7 @@ package application
 // リクエスト内容がアプリの仕様にあっているかの確認はここで行う
 
 import (
+	"errors"
 	"server/domain"
 )
 
@@ -13,6 +14,10 @@ func GetTodos() ([]domain.Todo, error) {
 }
 
 func CreateTodo(name string) (domain.Todo, error) {
+	if name == "" {
+		return domain.Todo{}, errors.New("nameが空です")
+	}
+
 	return domain.GetNewTodo(name)
 }
 

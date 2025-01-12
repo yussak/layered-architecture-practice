@@ -32,9 +32,6 @@ func HandleAddTodo(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return c.String(http.StatusBadRequest, "リクエストの形式が正しくありません")
 	}
-	if req.Name == "" {
-		return c.String(http.StatusBadRequest, "TODO名が空です")
-	}
 
 	newTodo, err := application.CreateTodo(req.Name)
 	if err != nil {
