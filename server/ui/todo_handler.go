@@ -4,6 +4,8 @@ package ui
 // リクエストを受け取り、形式的なチェックを行う
 // アプリの仕様に基づくチェックはここではなくapplication層で行う
 
+// 以前req.Name == "" のチェックをuiで書いていたが、Nameが空でも技術的には問題がない。でもアプリ側で問題がある。なのでapplicationで書くのか
+
 import (
 	"net/http"
 	"server/application"
