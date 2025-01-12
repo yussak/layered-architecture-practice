@@ -50,10 +50,5 @@ func CreateTodo(name string) (Todo, error) {
 }
 
 func DeleteTodo(id string) error {
-	err := infrastructure.Delete(id)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return infrastructure.Delete(id)
 }
