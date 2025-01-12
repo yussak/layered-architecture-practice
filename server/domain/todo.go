@@ -28,11 +28,6 @@ func GetTodos() ([]Todo, error) {
 	return todos, nil
 }
 
-type TodoResponse struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 func CreateTodo(name string) (Todo, error) {
 	insertedID, err := infrastructure.GetInsertedTodoID(name)
 	if err != nil {
