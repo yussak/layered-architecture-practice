@@ -33,7 +33,7 @@ type TodoResponse struct {
 	Name string `json:"name"`
 }
 
-func GetNewTodo(name string) (Todo, error) {
+func CreateTodo(name string) (Todo, error) {
 	insertedID, err := infrastructure.GetInsertedTodoID(name)
 	if err != nil {
 		return Todo{}, err

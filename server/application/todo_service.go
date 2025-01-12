@@ -18,7 +18,7 @@ func CreateTodo(name string) (domain.Todo, error) {
 		return domain.Todo{}, errors.New("nameが空です")
 	}
 
-	return domain.GetNewTodo(name)
+	return domain.CreateTodo(name)
 }
 
 func DeleteTodo(id string) error {
