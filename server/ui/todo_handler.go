@@ -13,8 +13,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func HandleGetTodos(c echo.Context) error {
-	todos, err := application.GetTodos()
+// 抽象化したapp層のコードを注入に変更したのか？
+// TODO:やってることをコメントする
+type TodoHandler struct {
+	Service application.TodoService
+}
+
+// TODO:やってることをコメントする
+func (h *TodoHandler) HandleGetTodos(c echo.Context) error {
+	todos, err := h.Service.GetTodos()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データ取得エラー")
 	}
