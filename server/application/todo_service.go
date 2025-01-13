@@ -10,7 +10,16 @@ import (
 	"server/domain"
 )
 
-func GetTodos() ([]domain.Todo, error) {
+// TODO:やってることをコメントする
+type TodoService interface {
+	GetTodos() ([]domain.Todo, error)
+}
+
+// TODO:やってることをコメントする
+type TodoServiceImpl struct{}
+
+// TODO:やってることをコメントする
+func (s *TodoServiceImpl) GetTodos() ([]domain.Todo, error) {
 	return domain.GetTodos()
 }
 

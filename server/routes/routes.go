@@ -6,10 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func SetupRoutes(e *echo.Echo) {
-	e.GET("/", func(c echo.Context) error {
-		return ui.HandleGetTodos(c)
-	})
+func SetupRoutes(e *echo.Echo, todoHandler ui.TodoHandler) {
+	e.GET("/", todoHandler.HandleGetTodos)
 	e.POST("/add", func(c echo.Context) error {
 		return ui.HandleAddTodo(c)
 	})
