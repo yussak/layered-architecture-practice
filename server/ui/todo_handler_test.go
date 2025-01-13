@@ -67,12 +67,6 @@ func TestHandleGetTodos(t *testing.T) {
 	assert.JSONEq(t, `[{"ID":1,"Name":"Task 1"},{"ID":2,"Name":"Task 2"}]`, rec.Body.String())
 }
 
-	// モックが期待どおり実行されたことを検証
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
-	}
-}
-
 func TestAddTodoWithSQLMock(t *testing.T) {
 	// モックデータベースとモックインターフェースを作成
 	mockDB, mock, err := sqlmock.New()
