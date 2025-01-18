@@ -13,16 +13,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// 抽象化したapp層のコードを注入に変更したのか？
-// TODO:やってることをコメントする
+// applicationで定義されたインターフェースを依存性として関連付けている
 type TodoHandler struct {
 	Service application.TodoService
 }
 
-// TODO:やってることをコメントする
 // TodoHandlerのServiceを通じてapplicationのGetTodos()にアクセスするように変更し、直接application.GetTodos()にアクセスしなくなった
 // それによってモックしやすくなる
-// 依存するのは具体的な実装ではなくインターフェースなので、
+// TodoHandler構造体に関連付けられた関数
 func (h *TodoHandler) HandleGetTodos(c echo.Context) error {
 	todos, err := h.Service.GetTodos()
 	if err != nil {
