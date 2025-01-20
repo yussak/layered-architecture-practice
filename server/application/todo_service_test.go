@@ -1,6 +1,7 @@
 package application
 
 import (
+	"errors"
 	"reflect"
 	"server/domain"
 	"testing"
@@ -44,5 +45,37 @@ func TestTodoServiceImpl_GetTodos_Success(t *testing.T) {
 
 	if !mockRepo.Called {
 		t.Error("expected GetTodos to be called, but it was not")
+	}
+}
+
+func TestTodoServiceImpl_GetTodos_Error(t *testing.T) {
+	mockError := errors.New("mock error")
+	// モックリポジトリを作成
+	mockRepo := &MockTodoRepository{
+		Todos: nil,
+		Error: mockError,
+	}
+
+	// サービスにモックを注入
+	TodoService := TodoService(mockRepo)
+
+	// 実行
+	result, err := TodoService.GetTodos()
+
+	if err == nil {
+		t.Fatal("expected error, but got nil")
+	}
+
+	// 検証
+	if err != mockError {
+		t.Errorf("unexpected error: %v", err)
+	}
+
+	if result != nil {
+		t.Errorf("expected nil, got %v", result)
+	}
+
+	if !mockRepo.Called {
+		t.Errorf("expected GetTodos to be called, but it was not")
 	}
 }
