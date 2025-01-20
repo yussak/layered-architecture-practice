@@ -33,22 +33,6 @@ func TestHandleGetTodos(t *testing.T) {
 	// Echoインスタンス作成
 	e := echo.New()
 
-	// // モックDB作成
-	// dbMock, mock, err := sqlmock.New()
-	// if err != nil {
-	// 	t.Fatalf("failed to create sqlmock: %s", err)
-	// }
-	// defer dbMock.Close()
-
-	// // グローバルDBをモックに差し替え
-	// db.DB = dbMock
-
-	// // モックDBの期待値設定
-	// mockRows := sqlmock.NewRows([]string{"id", "name"}).
-	// 	AddRow(1, "Task 1").
-	// 	AddRow(2, "Task 2")
-	// mock.ExpectQuery("SELECT id, name FROM todos").WillReturnRows(mockRows)
-
 	// リクエストとレスポンス作成
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	rec := httptest.NewRecorder()
