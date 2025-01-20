@@ -19,11 +19,14 @@ type TodoService interface {
 }
 
 // 依存性の注入時に&application.TodoServiceImplで呼ぶことで、TodoServiceImpl構造体の具体的な関数を呼べる
-type TodoServiceImpl struct{}
+type TodoServiceImpl struct {
+	// Domain側も依存性注入可能にしている
+	Domain domain.TodoDomain
+}
 
 // TodoServiceImpl構造体の関数であると示す
 func (s *TodoServiceImpl) GetTodos() ([]domain.Todo, error) {
-	return domain.GetTodos()
+	return s.Domain.GetTodos()
 }
 
 func CreateTodo(name string) (domain.Todo, error) {

@@ -13,6 +13,10 @@ type Todo struct {
 	Name string
 }
 
+type TodoDomain interface {
+	GetTodos() ([]Todo, error)
+}
+
 func GetTodos() ([]Todo, error) {
 	infraTodos, err := infrastructure.GetTodosFromDB()
 	if err != nil {
