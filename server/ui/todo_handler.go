@@ -15,6 +15,7 @@ import (
 
 // TodoHandlerのServiceを通じてapplicationのGetTodos()にアクセスするように変更し、直接application.GetTodos()にアクセスしなくなった
 // それによってモックしやすくなる
+// 現状ui->appのように一つだけに依存しているため引数で受け取っているが、複数の依存がある場合は構造体にしてその中に入れるほうが見やすいのでそうする予定
 func HandleGetTodos(todoService application.TodoService, c echo.Context) error {
 	todos, err := todoService.GetTodos()
 	if err != nil {
