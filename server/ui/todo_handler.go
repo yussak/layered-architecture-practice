@@ -13,16 +13,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// applicationで定義されたインターフェースを依存性として関連付けている
-type TodoHandler struct {
-	Service application.TodoService
-}
-
 // TodoHandlerのServiceを通じてapplicationのGetTodos()にアクセスするように変更し、直接application.GetTodos()にアクセスしなくなった
 // それによってモックしやすくなる
-// TodoHandler構造体に関連付けられた関数
-func (h *TodoHandler) HandleGetTodos(c echo.Context) error {
-	todos, err := h.Service.GetTodos()
+func HandleGetTodos(todoService application.TodoService, c echo.Context) error {
+	todos, err := todoService.GetTodos()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データ取得エラー")
 	}
