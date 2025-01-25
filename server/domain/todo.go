@@ -17,8 +17,12 @@ type TodoDomain interface {
 	GetTodos() ([]Todo, error)
 }
 
-func GetTodos() ([]Todo, error) {
-	infraTodos, err := infrastructure.GetTodosFromDB()
+type Repo struct {
+	Repo infrastructure.TodoRepo
+}
+
+func GetTodos(s *Repo) ([]Todo, error) {
+	infraTodos, err := s.Repo.GetTodosFromDB()
 	if err != nil {
 		return nil, err
 	}

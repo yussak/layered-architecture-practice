@@ -12,6 +12,10 @@ type Todo struct {
 	Name string
 }
 
+type TodoRepo interface {
+	GetTodosFromDB() ([]Todo, error)
+}
+
 func GetTodosFromDB() ([]Todo, error) {
 	rows, err := db.DB.Query("SELECT id, name FROM todos")
 	if err != nil {
