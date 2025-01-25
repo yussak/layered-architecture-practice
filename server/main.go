@@ -6,6 +6,7 @@ import (
 	"server/application"
 	"server/db"
 	"server/routes"
+	"server/ui"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -31,8 +32,9 @@ func main() {
 
 	// 依存性の注入
 	todoService := &application.TodoServiceImpl{}
+	todoHandler := ui.TodoHandler{Service: todoService}
 
-	routes.SetupRoutes(e, todoService)
+	routes.SetupRoutes(e, todoHandler)
 
 	fmt.Println("Server running on port :8080")
 	e.Logger.Fatal(e.Start(":8080"))

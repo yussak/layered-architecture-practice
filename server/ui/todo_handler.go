@@ -13,11 +13,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type TodoHandler struct {
+	Service application.TodoService
+}
+
 // TodoHandlerのServiceを通じてapplicationのGetTodos()にアクセスするように変更し、直接application.GetTodos()にアクセスしなくなった
 // それによってモックしやすくなる
-// 現状ui->appのように一つだけに依存しているため引数で受け取っているが、複数の依存がある場合は構造体にしてその中に入れるほうが見やすいのでそうする予定
-func HandleGetTodos(todoService application.TodoService, c echo.Context) error {
-	todos, err := todoService.GetTodos()
+func (h *TodoHandler) HandleGetTodos(c echo.Context) error {
+	todos, err := h.Service.GetTodos()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "データ取得エラー")
 	}

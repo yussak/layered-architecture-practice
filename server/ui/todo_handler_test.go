@@ -40,9 +40,10 @@ func TestHandleGetTodos(t *testing.T) {
 
 	// モックサービスを注入
 	mockService := &MockTodoService{}
+	handler := TodoHandler{Service: mockService}
 
 	// // テスト対象関数を実行
-	err := HandleGetTodos(mockService, c)
+	err := handler.HandleGetTodos(c)
 
 	// アサーション
 	assert.NoError(t, err)
